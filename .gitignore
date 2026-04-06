@@ -1,0 +1,5 @@
+# Private credentials - NEVER commit
+config/credentials.local.md
+
+# OS files
+.DS_Store
