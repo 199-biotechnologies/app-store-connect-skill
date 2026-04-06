@@ -162,5 +162,6 @@ xcrun simctl io booted screenshot ~/Pictures/screenshot.png
 | iPhone 15 Pro Max | APP_IPHONE_67 | 1290 x 2796 |
 | iPhone 15 Plus | APP_IPHONE_67 | 1290 x 2796 |
 | iPad Pro 12.9" | APP_IPAD_PRO_129 | 2048 x 2732 |
+| Apple Vision Pro | APP_APPLE_VISION_PRO | 3840 x 2160 |
 
 Minimum 2 screenshots per device type, maximum 10. App previews: 15-30 seconds, up to 3 per locale per device.

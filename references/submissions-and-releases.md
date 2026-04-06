@@ -21,6 +21,58 @@ requests.post(
 )
 ```
 
+## Cancel a Submission (Remove from Review)
+
+```python
+# Get the submission ID first
+response = requests.get(
+    f"https://api.appstoreconnect.apple.com/v1/appStoreVersions/{VERSION_ID}/appStoreVersionSubmission",
+    headers=headers
+)
+SUBMISSION_ID = response.json()['data']['id']
+
+# Cancel (sets status to Developer Rejected — review restarts if resubmitted)
+requests.delete(
+    f"https://api.appstoreconnect.apple.com/v1/appStoreVersionSubmissions/{SUBMISSION_ID}",
+    headers=headers
+)
+```
+
+## Export Compliance / Encryption Declaration
+
+Required for every build. Avoids the "Missing Compliance" warning that blocks TestFlight distribution.
+
+```python
+# List encryption declarations for a build
+response = requests.get(
+    f"https://api.appstoreconnect.apple.com/v1/builds/{BUILD_ID}/appEncryptionDeclaration",
+    headers=headers
+)
+ENCRYPTION_ID = response.json()['data']['id']
+
+# Set export compliance (most apps that only use HTTPS)
+update_data = {
+    "data": {
+        "type": "appEncryptionDeclarations",
+        "id": ENCRYPTION_ID,
+        "attributes": {
+            "usesEncryption": True,
+            "isExempt": True  # HTTPS-only apps are typically exempt
+        }
+    }
+}
+requests.patch(
+    f"https://api.appstoreconnect.apple.com/v1/appEncryptionDeclarations/{ENCRYPTION_ID}",
+    headers=headers, json=update_data
+)
+```
+
+**Tip:** To skip this entirely for future builds, add to Info.plist:
+```xml
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+```
+
 **Prerequisites before submission:**
 - All required metadata fields populated (description, keywords, screenshots)
 - Build uploaded and processed
