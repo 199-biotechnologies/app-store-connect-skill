@@ -173,13 +173,18 @@ First, get the territory availability IDs:
 
 ```python
 response = requests.get(
-    f"https://api.appstoreconnect.apple.com/v1/apps/{APP_ID}/appAvailability",
-    headers=headers,
-    params={"include": "availableTerritories"}
+    f"https://api.appstoreconnect.apple.com/v1/apps/{APP_ID}/relationships/appAvailabilityV2",
+    headers=headers
 )
-# Each included territory has an ID for patching
-for territory in response.json().get('included', []):
-    print(f"{territory['attributes']['currency']} - {territory['id']}")
+APP_AVAILABILITY_ID = response.json()['data']['id']
+
+# Get territory availabilities (v2 endpoint)
+response = requests.get(
+    f"https://api.appstoreconnect.apple.com/v2/appAvailabilities/{APP_AVAILABILITY_ID}/territoryAvailabilities",
+    headers=headers
+)
+for territory in response.json()['data']:
+    print(f"{territory['id']} - available: {territory['attributes']['available']}")
 TERRITORY_ID = "the-territory-id"
 ```
 

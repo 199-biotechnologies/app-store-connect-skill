@@ -266,7 +266,7 @@ def generate_card(url, app_name, subtitle="Scan to join the beta", style="dark",
     )
 
     # ── Save ──
-    canvas.save(output, "PNG", quality=95)
+    canvas.save(output, "PNG")
     print(f"Card saved: {output}")
     print(f"  Style: {style}")
     print(f"  Size: {W}x{H}")
@@ -296,7 +296,7 @@ def main():
 
     # Auto-generate output filename
     if args.output is None:
-        safe_name = args.app_name.lower().replace(" ", "_")
+        safe_name = "".join(c if c.isalnum() or c in "._-" else "_" for c in args.app_name.lower())
         args.output = f"{safe_name}_card.png"
 
     generate_card(
