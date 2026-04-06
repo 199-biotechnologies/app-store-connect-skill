@@ -42,7 +42,7 @@ You: "Create a monthly subscription at $4.99 with a free trial"
 You: "Submit version 2.1 for review with phased release enabled"
 ```
 
-No Helm subscription. No Fastlane config files. No memorising API endpoints.
+No subscription fees. No config files. No memorising API endpoints.
 
 ## What You Can Do
 
