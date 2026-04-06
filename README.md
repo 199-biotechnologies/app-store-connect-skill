@@ -60,6 +60,9 @@ No subscription fees. No config files. No memorising API endpoints.
 | **Custom Product Pages** | Create campaign-specific store listings with unique URLs |
 | **App Clips** | Configure default and advanced App Clip card experiences |
 | **Build & Deploy** | Archive, sign, and upload builds via xcodebuild CLI |
+| **Export Compliance** | Set encryption declarations, bypass with Info.plist flag |
+| **Cancel Submissions** | Remove a version from App Review programmatically |
+| **TestFlight Cards** | Generate stylish invitation cards with artistic QR codes (4 colour themes) |
 
 ## Install
 
@@ -89,16 +92,18 @@ app-store-connect/
 ├── SKILL.md                     # Core skill — auth, ID resolution, operations index
 ├── config/
 │   └── credentials.local.md     # Your API credentials (gitignored)
-└── references/
-    ├── metadata-and-localization.md
-    ├── screenshots-and-previews.md
-    ├── reviews-and-ratings.md
-    ├── testflight.md
-    ├── submissions-and-releases.md
-    ├── iap-and-subscriptions.md
-    ├── reports-and-analytics.md
-    ├── advanced-features.md
-    └── build-and-deploy.md
+├── references/
+│   ├── metadata-and-localization.md
+│   ├── screenshots-and-previews.md
+│   ├── reviews-and-ratings.md
+│   ├── testflight.md
+│   ├── submissions-and-releases.md
+│   ├── iap-and-subscriptions.md
+│   ├── reports-and-analytics.md
+│   ├── advanced-features.md
+│   └── build-and-deploy.md
+└── scripts/
+    └── testflight_card.py       # Stylish QR code invitation cards
 ```
 
 `SKILL.md` loads when Claude detects an App Store task. It contains auth setup, ID resolution patterns, and an index pointing to the 9 reference files. Claude only reads the specific reference file it needs for your request — keeping context lean and responses fast.
@@ -112,7 +117,7 @@ These operations are confirmed impossible via the App Store Connect REST API as 
 | **Create a new app** | No `POST /v1/apps` endpoint exists | Create manually in the ASC portal |
 | **Configure App Privacy** | No API endpoints for privacy questionnaire | Manual: ASC > App Privacy wizard |
 | **Upload/change app icon** | Icons are embedded in the Xcode binary | Set in Xcode asset catalog, then upload a new build |
-| **Delete an app** | No delete endpoint | Remove from sale in ASC portal |
+| **Delete an app** | No delete endpoint | [Remove App](https://developer.apple.com/help/app-store-connect/create-an-app-record/remove-an-app/) in ASC portal |
 | **Transfer an app** | Multi-step manual process | Initiate in ASC portal |
 | **Manage agreements** | Tax, banking, contracts have no API | Handle at appstoreconnect.apple.com/agreements/ |
 | **Privacy manifests** | PrivacyInfo.xcprivacy is an Xcode project file | Add to your Xcode project before building |
@@ -120,6 +125,7 @@ These operations are confirmed impossible via the App Store Connect REST API as 
 ## Requirements
 
 - **Python 3** with `PyJWT` and `requests` — `pip install PyJWT requests`
+- **For QR cards:** `pip install "qrcode[pil]" Pillow`
 - **Xcode** — for build archiving and simulator screenshots
 - **App Store Connect API key** — with appropriate permissions
 
